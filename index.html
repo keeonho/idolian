@@ -145,6 +145,8 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 #tape{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 
 @media (prefers-reduced-motion:reduce){ .floatstar,#live.ready,.player.on .disc{animation:none} }
+
+@media (max-width:560px){ .player{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 46px)} }
 </style>
 </head>
 <body class="dots">
@@ -155,7 +157,7 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
     <span class="disc" aria-hidden="true"><svg class="ic"><use href="#i-music-notes"/></svg></span><span><b>IDOL</b><small>Miura Jam, Bruna Higs</small></span><svg class="ic pp" aria-hidden="true"><use href="#i-play"/></svg>
   </button>
 </div>
-<div class="wmark" aria-hidden="true">made with love by<br>@listsfsrobot</div>
+<div class="wmark" aria-hidden="true">Made with love by @listsfsrobot<br>- @listbotfoocl</div>
 
 <div id="intro" aria-hidden="true">
   <svg class="eye" viewBox="0 0 300 160">
