@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Idolian</title>
+<meta name="description" content="イドリアン IDOLIAN: twenty idols on one stage. Pick your oshi.">
+<meta name="theme-color" content="#fde3ec">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23ff5fa2'/%3E%3Cpath d='M16 5l3.2 7 7.6.8-5.7 5.1 1.6 7.5L16 21.6l-6.7 3.8 1.6-7.5-5.7-5.1 7.6-.8z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DotGothic16&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#fde3ec; --pink2:#ffd0e1; --hot:#ff5fa2; --blue:#bfe3f7; --blue-d:#5aa9d8; --lav:#c9b6ff; --star:#ffe066; --ink:#4a3550; --mute:#8a7590; --white:#fffafc;
+  --night:#120d24; --night2:#1d1438;
+  --soft:0 16px 36px rgba(255,95,162,.2);
+  --gutter:16px; --oshi:#ff5fa2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--pink);-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{background:var(--pink);color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;font-weight:500;overflow-x:hidden;min-height:100dvh}
+img{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.ic{width:1em;height:1em;flex:none}
+.serif{font-family:"DM Serif Display",serif;font-weight:400}
+.pix{font-family:"DotGothic16",monospace}
+.jp{font-family:"Zen Maru Gothic",sans-serif}
+.dots{background-image:radial-gradient(circle,rgba(255,95,162,.18) 1.4px,transparent 1.8px);background-size:16px 16px}
+.wmark{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));z-index:96;pointer-events:none;user-select:none;
+  font-family:"DotGothic16",monospace;font-size:clamp(.78rem,3.2vw,.95rem);line-height:1.25;text-align:right;color:var(--hot);opacity:.6;text-shadow:0 0 6px #fff,0 0 2px #fff}
+
+/* ---------- intro: the star eye opens, countdown, live start ---------- */
+#intro{position:fixed;inset:0;z-index:97;background:radial-gradient(ellipse at 50% 45%,#2a1d52,var(--night) 70%);display:grid;place-items:center;align-content:center;gap:18px;text-align:center;color:#fff}
+.eye{width:min(70vw,300px);overflow:visible}
+.eye .lid{transform-origin:50% 50%}
+#count{font-family:"DM Serif Display";font-size:clamp(4rem,20vw,7rem);line-height:1;height:1em;color:#fff;text-shadow:0 0 24px var(--hot)}
+#live{font-family:"DotGothic16";font-size:clamp(1.4rem,6vw,2rem);letter-spacing:.2em;color:var(--star);text-shadow:0 0 14px var(--star);opacity:0}
+
+/* ---------- magazine cover ---------- */
+#cover{position:relative;min-height:100dvh;overflow:hidden;padding:max(22px,env(safe-area-inset-top)) var(--gutter) 40px}
+.mast{position:relative;z-index:1;text-align:center;line-height:.82;color:var(--hot);font-size:clamp(4rem,19vw,12rem);letter-spacing:-.02em;white-space:nowrap}
+.mast span{display:inline-block}
+.mast-sub{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:var(--ink);margin-top:6px;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:4px 0}
+.cv-photo{position:relative;z-index:2;width:min(86vw,520px);aspect-ratio:4/5;margin:14px auto 0;border-radius:28px 28px 120px 28px;overflow:hidden;box-shadow:var(--soft);border:6px solid #fff}
+.cv-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%}
+.tab{position:absolute;z-index:4;right:2%;top:44%;background:var(--blue);padding:10px 16px 12px;border-radius:6px 18px 6px 6px;box-shadow:var(--soft);rotate:3deg}
+.tab::before{content:"";position:absolute;left:0;top:-14px;width:46%;height:16px;background:var(--blue);border-radius:8px 8px 0 0}
+.tab b{display:block;font-family:"DM Serif Display";font-weight:400;font-size:clamp(1.4rem,6vw,2rem);color:var(--ink);line-height:1}
+.tab span{font-size:.85rem;color:var(--ink)}
+.sticker{position:absolute;z-index:4;display:grid;place-items:center;text-align:center;border-radius:50%;font-weight:900;line-height:1.05;box-shadow:var(--soft)}
+.sticker.s1{left:2%;top:38%;width:clamp(90px,24vw,130px);aspect-ratio:1;background:var(--star);color:var(--ink);rotate:-12deg;font-size:clamp(.8rem,3.4vw,1rem)}
+.sticker.s2{right:6%;bottom:12%;width:clamp(80px,20vw,112px);aspect-ratio:1;background:var(--hot);color:#fff;rotate:10deg;font-size:clamp(.78rem,3.2vw,.95rem)}
+.vline{position:absolute;z-index:4;left:4%;bottom:6%;writing-mode:vertical-rl;font-weight:900;font-size:clamp(1.3rem,5.6vw,2rem);color:#fff;text-shadow:0 2px 0 var(--hot),0 0 12px rgba(255,95,162,.6);letter-spacing:.08em}
+.cv-foot{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;margin-top:16px;gap:14px}
+.cv-foot p{font-size:.88rem;line-height:1.5;max-width:22ch;margin-left:46px}
+.barcode{width:110px;height:46px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 7px,transparent 7px 8px,var(--ink) 8px 9px,transparent 9px 12px);flex:none}
+.floatstar{position:absolute;z-index:3;color:var(--star);filter:drop-shadow(0 2px 4px rgba(255,95,162,.4));animation:twk 2.2s ease-in-out infinite}
+@keyframes twk{0%,100%{scale:.7;rotate:0deg}50%{scale:1.1;rotate:30deg}}
+@media (min-width:900px){ .cv-photo{margin-top:18px} .tab{right:16%} .sticker.s1{left:16%;top:30%} .sticker.s2{right:18%} .vline{left:18%} }
+
+/* ---------- today's イドリアン ---------- */
+#today{position:relative;padding:70px var(--gutter) 80px;max-width:1100px;margin:0 auto}
+.todaybox{border:2px solid var(--hot);background:#fff4f8;border-radius:6px;padding:10px 14px;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+.todaybox .ic{color:var(--hot)}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.tile{display:grid;gap:8px;justify-items:center;min-width:0}
+.tile .sq{width:100%;aspect-ratio:1;border-radius:16px;background:linear-gradient(160deg,#fff,#ffe5ef);box-shadow:var(--soft);display:grid;place-items:center;color:var(--hot);font-size:clamp(30px,9vw,56px)}
+.tile:nth-child(2) .sq{color:#ff9ab9} .tile:nth-child(3) .sq{color:#b07cff} .tile:nth-child(4) .sq{color:#ff4f6d} .tile:nth-child(5) .sq{color:#e877c8}
+.tile .lb{background:#fff;border-radius:999px;padding:4px 10px;font-size:clamp(.6rem,2.6vw,.85rem);box-shadow:0 4px 10px rgba(255,95,162,.12);text-align:center;line-height:1.15;max-width:100%}
+
+/* ---------- the stage ---------- */
+#stage{position:relative;min-height:100dvh;padding:90px var(--gutter) 260px;background:linear-gradient(180deg,var(--night2),var(--night) 60%);color:#fff;overflow:hidden}
+.beams{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+.beam{position:absolute;top:-10%;width:40vw;height:120%;background:conic-gradient(from 180deg at 50% 0%,transparent 165deg,rgba(255,255,255,.14) 175deg,rgba(255,255,255,.22) 180deg,rgba(255,255,255,.14) 185deg,transparent 195deg);transform-origin:50% 0}
+.beam.c{background:conic-gradient(from 180deg at 50% 0%,transparent 168deg,color-mix(in srgb,var(--oshi) 40%,transparent) 180deg,transparent 192deg)}
+#crowd{position:absolute;left:0;right:0;bottom:0;width:100%;height:240px;pointer-events:none}
+.st-head{position:relative;text-align:center;z-index:2}
+.st-head .serif{font-size:clamp(3.4rem,15vw,7rem);line-height:.9;color:#fff;text-shadow:0 0 30px var(--oshi)}
+.st-head .jp{display:block;font-weight:900;font-size:clamp(1.1rem,4.6vw,1.5rem);margin-top:8px}
+.st-head .pix{display:block;color:var(--star);margin-top:6px;letter-spacing:.12em;font-size:.9rem}
+.riser{position:relative;z-index:2;max-width:1000px;margin:40px auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:26px 10px}
+.riser::before{content:"";position:absolute;inset:-14px -6px;border-radius:24px;background:repeating-linear-gradient(180deg,rgba(255,255,255,.04) 0 calc(25% - 1px),rgba(255,255,255,.12) calc(25% - 1px) 25%);pointer-events:none}
+.idol{position:relative;display:grid;justify-items:center;gap:8px;text-align:center}
+.idol .av{position:relative;width:86%;aspect-ratio:1;border-radius:50%;padding:4px;background:var(--c);box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 22px var(--c);transition:scale .35s cubic-bezier(.34,1.56,.64,1)}
+.idol .av img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;border-radius:50%}
+.idol .nm{font-family:"DotGothic16";font-size:clamp(.78rem,3.2vw,1rem);background:rgba(255,255,255,.12);border:1px solid var(--c);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.idol:hover .av,.idol.lit .av{scale:1.08}
+.idol.lit::before{content:"";position:absolute;left:50%;top:-40%;width:160%;height:150%;translate:-50% 0;background:radial-gradient(ellipse at 50% 60%,color-mix(in srgb,var(--c) 45%,transparent),transparent 65%);pointer-events:none;z-index:-1}
+.idol:focus-visible{outline:3px solid var(--star);outline-offset:4px;border-radius:12px}
+@media (min-width:760px){ .riser{grid-template-columns:repeat(5,1fr);gap:36px 22px} }
+
+/* ---------- heartboard profile sheet ---------- */
+.sheet{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(18,13,36,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.sheet.on{display:flex}
+.page{position:relative;width:min(100%,560px);max-height:92dvh;overflow:auto;background:var(--pink);border-radius:26px 26px 0 0;padding:34px 18px 28px;box-shadow:0 -20px 40px rgba(0,0,0,.3)}
+.page .tab2{display:inline-block;background:var(--blue);border-radius:6px 16px 6px 6px;padding:8px 14px 10px;position:relative;margin-bottom:14px}
+.page .tab2::before{content:"";position:absolute;left:0;top:-12px;width:46%;height:14px;background:var(--blue);border-radius:8px 8px 0 0}
+.page .tab2 b{font-family:"DM Serif Display";font-weight:400;font-size:clamp(1.6rem,7vw,2.3rem);line-height:1;color:var(--ink)}
+.page .tab2 span{display:block;font-size:.85rem}
+.pgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:14px;align-items:start}
+.pphoto{border-radius:20px 20px 70px 20px;overflow:hidden;border:5px solid #fff;box-shadow:var(--soft);aspect-ratio:3/4}
+.pphoto img{width:100%;height:100%;object-fit:cover;object-position:50% 22%}
+.pinfo{display:grid;gap:10px}
+.pinfo .kata{font-weight:900;font-size:clamp(1.3rem,5.6vw,1.8rem);color:var(--hot);line-height:1.1}
+.pinfo .no{font-family:"DotGothic16";font-size:.95rem}
+.swatch{display:flex;align-items:center;gap:8px;font-size:.88rem}
+.swatch i{width:26px;height:26px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px #fff,0 0 12px var(--c)}
+.note{background:#fff;border-radius:14px;padding:10px 12px;font-size:.88rem;line-height:1.45;border:1.5px dashed var(--hot)}
+.oshi-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--hot);color:#fff;border-radius:999px;padding:12px 18px;font-weight:900;font-size:1.1rem;box-shadow:0 6px 0 #d43c80;transition:translate .1s,box-shadow .1s}
+.oshi-btn:active{translate:0 5px;box-shadow:0 1px 0 #d43c80}
+.oshi-btn:focus-visible,.pnav button:focus-visible,.close:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.hearts{font-family:"DotGothic16";font-size:.9rem;text-align:center}
+.pnav{display:flex;justify-content:space-between;margin-top:18px}
+.pnav button{background:#fff;border-radius:999px;padding:8px 16px;font-weight:700;box-shadow:var(--soft)}
+.close{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:20px;box-shadow:var(--soft)}
+.fly{position:fixed;z-index:99;pointer-events:none;color:var(--hot);font-size:26px}
+
+/* ---------- encore ---------- */
+#encore{position:relative;min-height:100dvh;display:grid;place-items:center;align-content:center;gap:12px;text-align:center;padding:90px var(--gutter) 130px;overflow:hidden}
+#encore .jp{font-weight:900;font-size:clamp(3.4rem,16vw,7rem);color:var(--hot);line-height:1;text-shadow:0 6px 0 #fff,0 10px 30px rgba(255,95,162,.35)}
+#encore .serif{font-size:clamp(1.6rem,7vw,2.6rem);font-style:italic}
+#encore .pix{color:var(--mute);letter-spacing:.14em}
+.strip{display:flex;gap:10px;justify-content:center;margin-top:26px}
+.strip div{width:clamp(70px,17vw,120px);aspect-ratio:3/4;border-radius:14px;overflow:hidden;border:4px solid #fff;box-shadow:var(--soft)}
+.strip div:nth-child(odd){rotate:-5deg} .strip div:nth-child(even){rotate:5deg;translate:0 14px}
+.strip img{width:100%;height:100%;object-fit:cover}
+#tape{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+@media (prefers-reduced-motion:reduce){ .floatstar{animation:none} }
+</style>
+</head>
+<body class="dots">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-device-mobile" viewBox="0 0 256 256" fill="currentColor"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM80,32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></symbol><symbol id="i-drop" viewBox="0 0 256 256" fill="currentColor"><path d="M174,47.75a254.19,254.19,0,0,0-41.45-38.3,8,8,0,0,0-9.18,0A254.19,254.19,0,0,0,82,47.75C54.51,79.32,40,112.6,40,144a88,88,0,0,0,176,0C216,112.6,201.49,79.32,174,47.75Zm9.85,105.59a57.6,57.6,0,0,1-46.56,46.55A8.75,8.75,0,0,1,136,200a8,8,0,0,1-1.32-15.89c16.57-2.79,30.63-16.85,33.44-33.45a8,8,0,0,1,15.78,2.68Z"/></symbol><symbol id="i-flower" viewBox="0 0 256 256" fill="currentColor"><path d="M210.35,129.36c-.81-.47-1.7-.92-2.62-1.36.92-.44,1.81-.89,2.62-1.36a40,40,0,1,0-40-69.28c-.81.47-1.65,1-2.48,1.59.08-1,.13-2,.13-3a40,40,0,0,0-80,0c0,.94,0,1.94.13,3-.83-.57-1.67-1.12-2.48-1.59a40,40,0,1,0-40,69.28c.81.47,1.7.92,2.62,1.36-.92.44-1.81.89-2.62,1.36a40,40,0,1,0,40,69.28c.81-.47,1.65-1,2.48-1.59-.08,1-.13,2-.13,2.95a40,40,0,0,0,80,0c0-.94-.05-1.94-.13-2.95.83.57,1.67,1.12,2.48,1.59A39.79,39.79,0,0,0,190.29,204a40.43,40.43,0,0,0,10.42-1.38,40,40,0,0,0,9.64-73.28ZM128,156a28,28,0,1,1,28-28A28,28,0,0,1,128,156Z"/></symbol><symbol id="i-hand-heart" viewBox="0 0 256 256" fill="currentColor"><path d="M230.33,141.06a24.34,24.34,0,0,0-18.61-4.77C230.5,117.33,240,98.48,240,80c0-26.47-21.29-48-47.46-48A47.58,47.58,0,0,0,156,48.75,47.58,47.58,0,0,0,119.46,32C93.29,32,72,53.53,72,80c0,11,3.24,21.69,10.06,33a31.87,31.87,0,0,0-14.75,8.4L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56Zm-10.9,27.15-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9Z"/></symbol><symbol id="i-headphones" viewBox="0 0 256 256" fill="currentColor"><path d="M232,128v56a24,24,0,0,1-24,24H192a24,24,0,0,1-24-24V144a24,24,0,0,1,24-24h23.65a87.71,87.71,0,0,0-87-80H128a88,88,0,0,0-87.64,80H64a24,24,0,0,1,24,24v40a24,24,0,0,1-24,24H48a24,24,0,0,1-24-24V128A104.11,104.11,0,0,1,201.89,54.66,103.41,103.41,0,0,1,232,128Z"/></symbol><symbol id="i-heart" viewBox="0 0 256 256" fill="currentColor"><path d="M240,102c0,70-103.79,126.66-108.21,129a8,8,0,0,1-7.58,0C119.79,228.66,16,172,16,102A62.07,62.07,0,0,1,78,40c20.65,0,38.73,8.88,50,23.89C139.27,48.88,157.35,40,178,40A62.07,62.07,0,0,1,240,102Z"/></symbol><symbol id="i-microphone-stage" viewBox="0 0 256 256" fill="currentColor"><path d="M115.06,46.36a4,4,0,0,0-6.11.54A71.54,71.54,0,0,0,96,88a73.29,73.29,0,0,0,.63,9.42L27.12,192.22A15.93,15.93,0,0,0,28.71,213L43,227.29a15.93,15.93,0,0,0,20.78,1.59l94.81-69.53A73.29,73.29,0,0,0,168,160a71.54,71.54,0,0,0,41.09-12.93,4,4,0,0,0,.54-6.11Zm2.61,103.28-16,16a8,8,0,1,1-11.31-11.31l16-16a8,8,0,0,1,11.31,11.31Zm109.4-20.56a4,4,0,0,1-6.12.54L126.38,35.05a4,4,0,0,1,.54-6.12A71.93,71.93,0,0,1,227.07,129.08Z"/></symbol><symbol id="i-music-notes" viewBox="0 0 256 256" fill="currentColor"><path d="M212.92,17.71a7.89,7.89,0,0,0-6.86-1.46l-128,32A8,8,0,0,0,72,56V166.1A36,36,0,1,0,88,196V102.25l112-28V134.1A36,36,0,1,0,216,164V24A8,8,0,0,0,212.92,17.71Z"/></symbol><symbol id="i-sparkle" viewBox="0 0 256 256" fill="currentColor"><path d="M208,144a15.78,15.78,0,0,1-10.42,14.94L146,178l-19,51.62a15.92,15.92,0,0,1-29.88,0L78,178l-51.62-19a15.92,15.92,0,0,1,0-29.88L78,110l19-51.62a15.92,15.92,0,0,1,29.88,0L146,110l51.62,19A15.78,15.78,0,0,1,208,144ZM152,48h16V64a8,8,0,0,0,16,0V48h16a8,8,0,0,0,0-16H184V16a8,8,0,0,0-16,0V32H152a8,8,0,0,0,0,16Zm88,32h-8V72a8,8,0,0,0-16,0v8h-8a8,8,0,0,0,0,16h8v8a8,8,0,0,0,16,0V96h8a8,8,0,0,0,0-16Z"/></symbol><symbol id="i-star" viewBox="0 0 256 256" fill="currentColor"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"/></symbol><symbol id="i-ticket" viewBox="0 0 256 256" fill="currentColor"><path d="M232,104a8,8,0,0,0,8-8V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V96a8,8,0,0,0,8,8,24,24,0,0,1,0,48,8,8,0,0,0-8,8v32a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V160a8,8,0,0,0-8-8,24,24,0,0,1,0-48ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Z"/></symbol><symbol id="i-x" viewBox="0 0 256 256" fill="currentColor"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol></svg>
+<div class="wmark" aria-hidden="true">made with love by<br>@listsfsrobot</div>
+
+<div id="intro" aria-hidden="true">
+  <svg class="eye" viewBox="0 0 300 160">
+    <defs><radialGradient id="iris" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#ffb3d6"/><stop offset=".55" stop-color="#ff5fa2"/><stop offset="1" stop-color="#7a3cff"/></radialGradient>
+      <clipPath id="eyeclip"><path d="M10 80 C 70 10, 230 10, 290 80 C 230 150, 70 150, 10 80Z"/></clipPath></defs>
+    <g clip-path="url(#eyeclip)">
+      <rect width="300" height="160" fill="#fff"/>
+      <circle cx="150" cy="80" r="58" fill="url(#iris)"/>
+      <circle cx="150" cy="80" r="26" fill="#2a1240"/>
+      <path id="starPupil" d="M150 50 L158 70 L180 72 L163 86 L169 108 L150 96 L131 108 L137 86 L120 72 L142 70Z" fill="#fff" style="filter:drop-shadow(0 0 8px #fff)"/>
+      <circle cx="128" cy="58" r="9" fill="#fff" opacity=".9"/>
+      <rect class="lid" id="lidTop" x="0" y="-80" width="300" height="160" fill="#2a1d52"/>
+      <rect class="lid" id="lidBot" x="0" y="80" width="300" height="160" fill="#2a1d52"/>
+    </g>
+    <path d="M10 80 C 70 10, 230 10, 290 80" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  </svg>
+  <div id="count"></div>
+  <div id="live">LIVE START</div>
+</div>
+
+<main>
+  <!-- MAGAZINE COVER -->
+  <section id="cover" aria-labelledby="mast">
+    <svg class="ic floatstar" style="left:6%;top:14%;font-size:30px"><use href="#i-star"/></svg>
+    <svg class="ic floatstar" style="right:8%;top:20%;font-size:22px;animation-delay:-1s"><use href="#i-sparkle"/></svg>
+    <h1 class="mast serif" id="mast" aria-label="IDOLIAN"><span>I</span><span>D</span><span>O</span><span>L</span><span>I</span><span>A</span><span>N</span></h1>
+    <div class="mast-sub pix"><span>イドリアン</span><span>SPECIAL ISSUE</span><span>vol.01</span></div>
+    <div class="cv-photo cv-in"><img src="img/i18.webp" alt="Jeong Ian, the Idolian muse"></div>
+    <div class="tab cv-in"><b>IDOLIAN's</b><span>Heartboard</span></div>
+    <div class="sticker s1 cv-in jp">20人の<br>アイドル</div>
+    <div class="sticker s2 cv-in jp">推しを<br>見つけて</div>
+    <p class="vline jp cv-in" lang="ja">今日のイドリアン</p>
+    <div class="cv-foot">
+      <p class="jp cv-in">twenty idols, one stage.<br><span lang="ja">ステージへようこそ。</span></p>
+      <div class="barcode cv-in" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- TODAY'S -->
+  <section id="today" aria-label="Today's Idolian">
+    <div class="todaybox rv"><span>today's <span lang="ja">イドリアン</span></span><svg class="ic"><use href="#i-flower"/></svg></div>
+    <div class="tiles">
+      <div class="tile"><div class="sq"><svg class="ic"><use href="#i-device-mobile"/></svg></div><span class="lb">Pink Ipod</span></div>
+      <div class="tile"><div class="sq"><svg class="ic"><use href="#i-flower"/></svg></div><span class="lb">Cherry Blossom</span></div>
+      <div class="tile"><div class="sq"><svg class="ic"><use href="#i-headphones"/></svg></div><span class="lb">Headphone</span></div>
+      <div class="tile"><div class="sq"><svg class="ic"><use href="#i-drop"/></svg></div><span class="lb">Strawberry Syrup</span></div>
+      <div class="tile"><div class="sq"><svg class="ic"><use href="#i-music-notes"/></svg></div><span class="lb">Music Note</span></div>
+    </div>
+  </section>
+
+  <!-- STAGE -->
+  <section id="stage" aria-labelledby="stage-h">
+    <div class="beams" aria-hidden="true"><div class="beam" style="left:-6%"></div><div class="beam c" style="left:30%"></div><div class="beam" style="right:-6%"></div></div>
+    <div class="st-head">
+      <h2 class="serif rv" id="stage-h">On Stage</h2>
+      <span class="jp rv" lang="ja">推しを選んでね</span>
+      <span class="pix rv">tap your oshi</span>
+    </div>
+    <div class="riser" id="riser"><button class="idol" type="button" style="--c:#ff8fb1" aria-label="waguri, open profile"><span class="av"><img src="img/i1.webp" alt="" loading="lazy"></span><span class="nm">waguri</span></button><button class="idol" type="button" style="--c:#ff5fa2" aria-label="marin, open profile"><span class="av"><img src="img/i2.webp" alt="" loading="lazy"></span><span class="nm">marin</span></button><button class="idol" type="button" style="--c:#b05cff" aria-label="misa, open profile"><span class="av"><img src="img/i3.webp" alt="" loading="lazy"></span><span class="nm">misa</span></button><button class="idol" type="button" style="--c:#ffcf3f" aria-label="toga, open profile"><span class="av"><img src="img/i4.webp" alt="" loading="lazy"></span><span class="nm">toga</span></button><button class="idol" type="button" style="--c:#3fd6c8" aria-label="miku, open profile"><span class="av"><img src="img/i5.webp" alt="" loading="lazy"></span><span class="nm">miku</span></button><button class="idol" type="button" style="--c:#ff9ad5" aria-label="elysia, open profile"><span class="av"><img src="img/i6.webp" alt="" loading="lazy"></span><span class="nm">elysia</span></button><button class="idol" type="button" style="--c:#ff3d7f" aria-label="ai-chan, open profile"><span class="av"><img src="img/i7.webp" alt="" loading="lazy"></span><span class="nm">ai-chan</span></button><button class="idol" type="button" style="--c:#8c7bff" aria-label="evanescia, open profile"><span class="av"><img src="img/i8.webp" alt="" loading="lazy"></span><span class="nm">evanescia</span></button><button class="idol" type="button" style="--c:#6ec1ff" aria-label="murao, open profile"><span class="av"><img src="img/i9.webp" alt="" loading="lazy"></span><span class="nm">murao</span></button><button class="idol" type="button" style="--c:#ffa35c" aria-label="riyo, open profile"><span class="av"><img src="img/i10.webp" alt="" loading="lazy"></span><span class="nm">riyo</span></button><button class="idol" type="button" style="--c:#7cdb8a" aria-label="pareo, open profile"><span class="av"><img src="img/i11.webp" alt="" loading="lazy"></span><span class="nm">pareo</span></button><button class="idol" type="button" style="--c:#e86f9a" aria-label="aerith, open profile"><span class="av"><img src="img/i12.webp" alt="" loading="lazy"></span><span class="nm">aerith</span></button><button class="idol" type="button" style="--c:#5b8cff" aria-label="sailormoon, open profile"><span class="av"><img src="img/i13.webp" alt="" loading="lazy"></span><span class="nm">sailormoon</span></button><button class="idol" type="button" style="--c:#f06bdc" aria-label="utena, open profile"><span class="av"><img src="img/i14.webp" alt="" loading="lazy"></span><span class="nm">utena</span></button><button class="idol" type="button" style="--c:#58d1ff" aria-label="futaba, open profile"><span class="av"><img src="img/i15.webp" alt="" loading="lazy"></span><span class="nm">futaba</span></button><button class="idol" type="button" style="--c:#ff7a7a" aria-label="chika, open profile"><span class="av"><img src="img/i16.webp" alt="" loading="lazy"></span><span class="nm">chika</span></button><button class="idol" type="button" style="--c:#ff92e0" aria-label="madoka, open profile"><span class="av"><img src="img/i17.webp" alt="" loading="lazy"></span><span class="nm">madoka</span></button><button class="idol" type="button" style="--c:#c43b5a" aria-label="tomie, open profile"><span class="av"><img src="img/i19.webp" alt="" loading="lazy"></span><span class="nm">tomie</span></button><button class="idol" type="button" style="--c:#ffd84d" aria-label="hachi, open profile"><span class="av"><img src="img/i20.webp" alt="" loading="lazy"></span><span class="nm">hachi</span></button><button class="idol" type="button" style="--c:#9be15d" aria-label="otogi, open profile"><span class="av"><img src="img/i21.webp" alt="" loading="lazy"></span><span class="nm">otogi</span></button></div>
+    <canvas id="crowd" aria-hidden="true"></canvas>
+  </section>
+
+  <!-- ENCORE -->
+  <section id="encore" aria-labelledby="enc-h">
+    <canvas id="tape" aria-hidden="true"></canvas>
+    <h2 class="jp rv" id="enc-h" lang="ja">ありがとう!</h2>
+    <p class="serif rv">thank you for coming</p>
+    <span class="pix rv">IDOLIAN · LIVE · vol.01</span>
+    <div class="strip rv" aria-hidden="true"><div><img src="img/i19.webp" alt=""></div><div><img src="img/i17.webp" alt=""></div><div><img src="img/i3.webp" alt=""></div><div><img src="img/i20.webp" alt=""></div></div>
+  </section>
+</main>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="pName">
+  <div class="page" id="page">
+    <button class="close" id="close" type="button" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+    <div class="tab2"><b id="pName">waguri's</b><span>Heartboard</span></div>
+    <div class="pgrid">
+      <div class="pphoto"><img id="pImg" src="img/i1.webp" alt=""></div>
+      <div class="pinfo">
+        <div class="kata" id="pKata" lang="ja">ワグリ</div>
+        <div class="no" id="pNo">No.01 / 20</div>
+        <div class="swatch" id="pSw"><i></i><span>member color</span></div>
+        <div class="note"><span lang="ja">応援してね!</span><br>Press the button to cheer for your oshi.</div>
+        <button class="oshi-btn" id="oshi" type="button"><svg class="ic"><use href="#i-heart"/></svg><span lang="ja">推す!</span></button>
+        <div class="hearts" id="pHearts">0 hearts</div>
+      </div>
+    </div>
+    <div class="pnav"><button type="button" id="prev">prev</button><button type="button" id="next">next</button></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const rnd = (a, b) => a + Math.random() * (b - a);
+const store = { get: k => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { localStorage.setItem(k, v); } catch {} } };
+const M = [{"n": "waguri", "k": "ワグリ", "c": "#ff8fb1", "img": "i1"}, {"n": "marin", "k": "マリン", "c": "#ff5fa2", "img": "i2"}, {"n": "misa", "k": "ミサ", "c": "#b05cff", "img": "i3"}, {"n": "toga", "k": "トガ", "c": "#ffcf3f", "img": "i4"}, {"n": "miku", "k": "ミク", "c": "#3fd6c8", "img": "i5"}, {"n": "elysia", "k": "エリシア", "c": "#ff9ad5", "img": "i6"}, {"n": "ai-chan", "k": "アイちゃん", "c": "#ff3d7f", "img": "i7"}, {"n": "evanescia", "k": "エヴァネッシア", "c": "#8c7bff", "img": "i8"}, {"n": "murao", "k": "ムラオ", "c": "#6ec1ff", "img": "i9"}, {"n": "riyo", "k": "リヨ", "c": "#ffa35c", "img": "i10"}, {"n": "pareo", "k": "パレオ", "c": "#7cdb8a", "img": "i11"}, {"n": "aerith", "k": "エアリス", "c": "#e86f9a", "img": "i12"}, {"n": "sailormoon", "k": "セーラームーン", "c": "#5b8cff", "img": "i13"}, {"n": "utena", "k": "ウテナ", "c": "#f06bdc", "img": "i14"}, {"n": "futaba", "k": "フタバ", "c": "#58d1ff", "img": "i15"}, {"n": "chika", "k": "チカ", "c": "#ff7a7a", "img": "i16"}, {"n": "madoka", "k": "マドカ", "c": "#ff92e0", "img": "i17"}, {"n": "tomie", "k": "トミエ", "c": "#c43b5a", "img": "i19"}, {"n": "hachi", "k": "ハチ", "c": "#ffd84d", "img": "i20"}, {"n": "otogi", "k": "オトギ", "c": "#9be15d", "img": "i21"}];
+
+let lenis = null;
+if (!reduce) {
+  lenis = new Lenis({ lerp: 0.1 });
+  lenis.on("scroll", ScrollTrigger.update);
+  gsap.ticker.add(t => lenis.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+  lenis.stop();
+}
+
+/* ---------- intro ---------- */
+function coverIn() {
+  const tl = gsap.timeline();
+  if (reduce) return tl;
+  tl.from(".mast span", { yPercent: -120, opacity: 0, duration: 0.7, ease: "back.out(1.8)", stagger: 0.06 })
+    .from(".mast-sub", { scaleX: 0, duration: 0.6, ease: "power3.out" }, 0.2)
+    .from(".cv-photo", { y: 80, opacity: 0, scale: 0.92, duration: 0.9, ease: "expo.out" }, 0.3)
+    .from(".tab,.sticker", { scale: 0, rotate: () => rnd(-40, 40), duration: 0.6, ease: "back.out(2.4)", stagger: 0.1 }, 0.7)
+    .from(".vline,.cv-foot > *", { opacity: 0, y: 20, duration: 0.6, stagger: 0.1 }, 0.9);
+  return tl;
+}
+const loaded = new Promise(r => (document.readyState === "complete" ? r() : addEventListener("load", r)));
+Promise.race([loaded, new Promise(r => setTimeout(r, 5000))]).then(() => {
+  const done = () => { $("#intro").remove(); lenis && lenis.start(); ScrollTrigger.refresh(); };
+  if (reduce) return done();
+  const c = $("#count");
+  const tl = gsap.timeline({ onComplete: done });
+  tl.to("#lidTop", { y: -80, duration: 0.7, ease: "power3.inOut" })
+    .to("#lidBot", { y: 80, duration: 0.7, ease: "power3.inOut" }, "<")
+    .fromTo("#starPupil", { scale: 0.3, svgOrigin: "150 80" }, { scale: 1, rotate: 72, svgOrigin: "150 80", duration: 0.8, ease: "back.out(2)" }, "-=0.3");
+  ["3", "2", "1"].forEach((n, i) => tl.call(() => (c.textContent = n), null, 1.1 + i * 0.5).fromTo(c, { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power3.out" }, 1.1 + i * 0.5));
+  tl.call(() => (c.textContent = ""), null, 2.6)
+    .to("#live", { opacity: 1, scale: 1.1, duration: 0.3, ease: "steps(3)" }, 2.6)
+    .to("#intro", { clipPath: "circle(0% at 50% 50%)", duration: 0.9, ease: "expo.inOut" }, 3.3)
+    .add(coverIn(), 3.6);
+  gsap.set("#intro", { clipPath: "circle(150% at 50% 50%)" });
+});
+
+/* ---------- scroll reveals ---------- */
+if (!reduce) {
+  $$(".rv").forEach(el => gsap.from(el, { opacity: 0, y: 36, duration: 0.8, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none reverse" } }));
+  gsap.to(".cv-photo img", { scale: 1.12, ease: "none", scrollTrigger: { trigger: "#cover", start: "top top", end: "bottom top", scrub: true } });
+  gsap.to(".mast", { yPercent: 30, ease: "none", scrollTrigger: { trigger: "#cover", start: "top top", end: "bottom top", scrub: true } });
+  ScrollTrigger.batch(".tile", { start: "top 90%", once: true, onEnter: els => gsap.from(els, { y: 50, opacity: 0, rotate: () => rnd(-10, 10), duration: 0.7, ease: "back.out(2)", stagger: 0.08,
+    onComplete: () => els.forEach((t, i) => gsap.to(t.querySelector(".sq"), { y: -6, duration: 1.4 + i * 0.15, yoyo: true, repeat: -1, ease: "sine.inOut" })) }) });
+  ScrollTrigger.batch(".idol", { start: "top 92%", once: true, onEnter: els => gsap.from(els, { y: 60, opacity: 0, scale: 0.7, duration: 0.7, ease: "back.out(1.8)", stagger: 0.05 }) });
+  $$(".beam").forEach((b, i) => gsap.fromTo(b, { rotate: i % 2 ? 18 : -18 }, { rotate: i % 2 ? -18 : 18, duration: 3 + i, yoyo: true, repeat: -1, ease: "sine.inOut" }));
+}
+$$(".tile").forEach(t => t.addEventListener("click", () => !reduce && gsap.fromTo(t.querySelector(".sq"), { rotate: -14, scale: 0.9 }, { rotate: 0, scale: 1, duration: 0.8, ease: "elastic.out(1.2,0.35)" })));
+
+/* ---------- crowd of penlights, recoloured to your oshi ---------- */
+const cv = $("#crowd"), cx = cv.getContext("2d");
+let CW = 0, CH = 0, lights = [], crowdOn = false, oshiCol = null;
+function sizeCrowd() {
+  const d = Math.min(devicePixelRatio, 2); CW = cv.clientWidth; CH = cv.clientHeight; cv.width = CW * d; cv.height = CH * d; cx.setTransform(d, 0, 0, d, 0, 0);
+  lights = [];
+  for (let row = 0; row < 5; row++) { const n = Math.round(CW / (22 - row * 2)); for (let i = 0; i < n; i++) lights.push({ x: (i + rnd(0, 0.8)) * (CW / n), row, ph: rnd(0, 6.28), col: M[(Math.random() * M.length) | 0].c }); }
+}
+sizeCrowd(); addEventListener("resize", sizeCrowd);
+function crowd(t) {
+  if (!crowdOn) return;
+  requestAnimationFrame(crowd);
+  cx.clearRect(0, 0, CW, CH);
+  const s = t / 1000;
+  for (const L of lights) {
+    const scale = 0.55 + L.row * 0.13, baseY = CH * (0.3 + L.row * 0.16), len = 30 * scale;
+    const a = Math.sin(s * 3 + L.ph * 0.3 + L.x * 0.004) * 0.5; // the whole crowd waves in sync
+    const col = oshiCol || L.col;
+    cx.save(); cx.translate(L.x, baseY); cx.rotate(a);
+    cx.shadowColor = col; cx.shadowBlur = 12; cx.fillStyle = col;
+    cx.beginPath(); cx.roundRect(-3 * scale, -len, 6 * scale, len, 3 * scale); cx.fill();
+    cx.shadowBlur = 0; cx.fillStyle = "#0d0a1c"; cx.fillRect(-2.5 * scale, 0, 5 * scale, 12 * scale);
+    cx.restore();
+  }
+}
+ScrollTrigger.create({ trigger: "#stage", start: "top bottom", end: "bottom top", onToggle: st => { crowdOn = st.isActive && !reduce; if (crowdOn) requestAnimationFrame(crowd); } });
+
+/* ---------- heartboard profile ---------- */
+const sheet = $("#sheet"), idols = $$(".idol");
+let cur = 0;
+const hearts = JSON.parse(store.get("idolian-hearts") || "{}");
+function fill(i) {
+  const m = M[i]; cur = i;
+  $("#pName").textContent = m.n + "'s";
+  $("#pKata").textContent = m.k;
+  $("#pNo").textContent = `No.${String(i + 1).padStart(2, "0")} / ${M.length}`;
+  $("#pImg").src = `img/${m.img}.webp`; $("#pImg").alt = `${m.n} (Jeong Ian)`;
+  $("#page").style.setProperty("--c", m.c);
+  $("#pHearts").textContent = `${hearts[m.n] || 0} hearts`;
+  idols.forEach((el, j) => el.classList.toggle("lit", j === i));
+  document.documentElement.style.setProperty("--oshi", m.c);
+  oshiCol = m.c;
+}
+function open(i) {
+  fill(i); sheet.classList.add("on"); lenis && lenis.stop();
+  if (!reduce) gsap.fromTo("#page", { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "expo.out" });
+  $("#oshi").focus({ preventScroll: true });
+}
+function close() {
+  const fin = () => { sheet.classList.remove("on"); lenis && lenis.start(); idols[cur].focus({ preventScroll: true }); };
+  reduce ? fin() : gsap.to("#page", { yPercent: 100, duration: 0.35, ease: "power3.in", onComplete: fin });
+}
+idols.forEach((el, i) => el.addEventListener("click", () => open(i)));
+$("#close").addEventListener("click", close);
+sheet.addEventListener("click", e => e.target === sheet && close());
+addEventListener("keydown", e => { if (!sheet.classList.contains("on")) return; if (e.key === "Escape") close(); if (e.key === "ArrowRight") step(1); if (e.key === "ArrowLeft") step(-1); });
+function step(d) {
+  const i = (cur + d + M.length) % M.length;
+  if (reduce) return fill(i);
+  gsap.to(".pgrid", { x: -d * 40, opacity: 0, duration: 0.15, onComplete: () => { fill(i); gsap.fromTo(".pgrid", { x: d * 40, opacity: 0 }, { x: 0, opacity: 1, duration: 0.3, ease: "power3.out" }); } });
+}
+$("#next").addEventListener("click", () => step(1));
+$("#prev").addEventListener("click", () => step(-1));
+$("#oshi").addEventListener("click", e => {
+  const m = M[cur]; hearts[m.n] = (hearts[m.n] || 0) + 1; store.set("idolian-hearts", JSON.stringify(hearts));
+  $("#pHearts").textContent = `${hearts[m.n]} hearts`;
+  if (reduce) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  for (let k = 0; k < 8; k++) {
+    const h = document.createElementNS("http://www.w3.org/2000/svg", "svg"); h.setAttribute("class", "ic fly"); h.innerHTML = '<use href="#i-heart"/>';
+    h.style.left = r.left + r.width / 2 - 13 + "px"; h.style.top = r.top - 10 + "px"; h.style.color = k % 2 ? m.c : "#ff5fa2";
+    document.body.appendChild(h);
+    gsap.to(h, { x: rnd(-90, 90), y: rnd(-220, -120), rotate: rnd(-40, 40), scale: rnd(0.7, 1.4), opacity: 0, duration: rnd(0.9, 1.4), ease: "power2.out", onComplete: () => h.remove() });
+  }
+  gsap.fromTo(e.currentTarget, { scale: 0.9 }, { scale: 1, duration: 0.5, ease: "elastic.out(1.3,0.4)" });
+});
+
+/* ---------- encore: silver tape and confetti cannons ---------- */
+function cannons() {
+  if (reduce) return;
+  const c = $("#tape"), x = c.getContext("2d"), host = $("#encore");
+  const W = host.clientWidth, H = host.clientHeight, d = Math.min(devicePixelRatio, 2);
+  c.width = W * d; c.height = H * d; x.scale(d, d);
+  const cols = ["#ff5fa2", "#ffe066", "#bfe3f7", "#c9b6ff", "#ffffff", "#d9d9e6"];
+  const bits = [];
+  [[0, H], [W, H]].forEach(([ox, oy], s) => { for (let i = 0; i < 70; i++) bits.push({ x: ox, y: oy, vx: (s ? -1 : 1) * rnd(3, 10), vy: -rnd(12, 22), r: rnd(0, 6), vr: rnd(-0.2, 0.2), w: i % 3 ? rnd(6, 10) : 4, h: i % 3 ? rnd(8, 14) : rnd(40, 70), c: cols[i % 6], tape: i % 3 === 0, sw: rnd(0, 6) }); });
+  const t0 = performance.now();
+  (function tick(t) {
+    x.clearRect(0, 0, W, H);
+    bits.forEach(b => {
+      b.vy = Math.min(b.vy + 0.35, b.tape ? 2.2 : 4); b.vx *= 0.985; b.sw += 0.1; b.x += b.vx + (b.tape ? Math.sin(b.sw) * 1.2 : 0); b.y += b.vy; b.r += b.vr;
+      x.save(); x.translate(b.x, b.y); x.rotate(b.r); x.fillStyle = b.c;
+      if (b.tape) { x.globalAlpha = 0.9; x.fillRect(-b.w / 2, -b.h / 2, b.w, b.h); } else x.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+      x.restore();
+    });
+    t - t0 < 6000 ? requestAnimationFrame(tick) : x.clearRect(0, 0, W, H);
+  })(t0);
+}
+ScrollTrigger.create({ trigger: "#encore", start: "top 55%", onEnter: cannons, onEnterBack: () => {} });
+document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+</script>
+</body>
+</html>
